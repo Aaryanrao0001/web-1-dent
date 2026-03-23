@@ -1,0 +1,104 @@
+/**
+ * styles/cinema.css
+ *
+ * Positional / structural styles only.
+ * NO CSS keyframes, transitions, or animation properties here.
+ * All motion is owned by GSAP (useCinematicTimeline.ts).
+ *
+ * The classes defined here are targeted directly by GSAP selectors.
+ */
+
+/* ─── Scene container ────────────────────────────────────────────────────── */
+.scene-container {
+  position: relative;
+  width: 100%;
+  height: 100svh; /* safe viewport height for mobile */
+  overflow: hidden;
+}
+
+/* Fallback for browsers that don't support svh */
+@supports not (height: 100svh) {
+  .scene-container {
+    height: 100vh;
+  }
+}
+
+/* ─── Image layers ───────────────────────────────────────────────────────── */
+
+/* Common styles for all scene images */
+.img1,
+.img2,
+.img3,
+.img4,
+.img5 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  /* translateZ(0) promotes each layer to its own GPU composite layer */
+  transform: translateZ(0);
+}
+
+/* z-index layering: higher scenes sit on top */
+.img1 { z-index: 1; opacity: 1; }
+.img2 { z-index: 2; opacity: 0; }
+.img3 { z-index: 3; opacity: 0; }
+.img4 { z-index: 4; opacity: 0; }
+.img5 { z-index: 5; opacity: 0; }
+
+/* ─── Overlay text container ─────────────────────────────────────────────── */
+.overlay-text {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ─── Individual text blocks ─────────────────────────────────────────────── */
+.text1,
+.text2,
+.text3,
+.text4,
+.text5 {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  color: #ffffff;
+  /* No text-shadow per spec */
+}
+
+/* ─── Responsive text positioning ───────────────────────────────────────── */
+
+/* Tablet (768–1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .text1,
+  .text2,
+  .text3,
+  .text4,
+  .text5 {
+    left: 8%;
+  }
+}
+
+/* Mobile (<768px) */
+@media (max-width: 767px) {
+  .text1,
+  .text2,
+  .text3,
+  .text4,
+  .text5 {
+    top: 50%;
+    left: 5%;
+  }
+}
+
+/* ─── Mobile touch behavior ──────────────────────────────────────────────── */
+/* Allow vertical panning on mobile; ScrollTrigger normalizeScroll handles    */
+/* the rest. This prevents scroll hijacking issues on iOS/Android.            */
+body {
+  touch-action: pan-y;
+}
